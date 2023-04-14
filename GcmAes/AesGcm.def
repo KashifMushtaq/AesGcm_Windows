@@ -1,0 +1,12 @@
+LIBRARY
+; AesGcm.def : Declares the module parameters.
+
+EXPORTS
+	;GCM Functions
+    _base64Encode
+    _base64Decode
+    _hexDecode
+    _hexEncode
+    _encrypt_GcmAes256
+    _decrypt_GcmAes256
+    _getNewAESKeyAndIv
