@@ -1,6 +1,6 @@
 # Cross Platform AES 256 GCM Encryption / Decryption (Windows x64 C++ dynamic library)
 
-![C# Test](/GcmAes.png)
+![C++ Test](/AesGcm.png)
 
 ### Introduction
 While working in security, identity management and data protection fields for a while, I found a very few working examples in the public domain on cross platform encryption based on AES 256 GCM algorithm. This is the same algorithm used by Google when you access Gmail, etc.
