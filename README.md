@@ -14,9 +14,7 @@ This repository consists 2 **Microsoft Visual Studio 2022 projects**. Please clo
 ### Build Steps:
 
 ### Crypto++:
-To build, please open **cryptopp870** folder in **terminal** and enter **make** command. It will build **libcryptopp.a** static library. The library defaults to OS architecture. GcmAes Netbeans project depends on **libcryptopp.a** and is linked to it.
-
-Once the library is available, you can build both projects individually from Netbeans IDE. **GcmAesTest** project has **libGcmAes.so** depedency and will be pre-build. Once build, the projects could be debugged as well.
+Set **AesGcmTest** as startup project and build it (Debug x64 or Release x64). This project has other projects as depedency and all projects will be build in required build order including **Crypto++** library.
 
 The test program validates few encryption and decryption tests. One of them is the decryption of text which was encrypted using Java code (links available below).
 
@@ -42,24 +40,24 @@ Test 2 -> Encryption / Decryption OK
 Test 3 -> Decrypted: Test encryption and decryption
 Test 3 -> Java Encrypted / C++ Decryption OK
 
-Test 4 -> Multi-byte Text: syllabic kana � hiragana (???) and katakana (???)
+Test 4 -> Multi-byte Text: syllabic kana – hiragana (平仮名) and katakana (片仮名)
 Test 4 -> Hex Encoded: 73796C6C61626963206B616E6120E28093206869726167616E612028E5B9B3E4BBAEE5908D2920616E64206B6174616B616E612028E78987E4BBAEE5908D29
 Test 4 -> Hex Encoding OK
 
-Test 5 -> Multi-byte Text: syllabic kana � hiragana (???) and katakana (???)
-Test 5 -> Hex Decoded: syllabic kana � hiragana (???) and katakana (???)
+Test 5 -> Multi-byte Text: syllabic kana – hiragana (平仮名) and katakana (片仮名)
+Test 5 -> Hex Decoded: syllabic kana – hiragana (平仮名) and katakana (片仮名)
 Test 5 -> Hex Decoding OK
 
-Test 6 -> Multi-byte Text: syllabic kana � hiragana (???) and katakana (???)
+Test 6 -> Multi-byte Text: syllabic kana – hiragana (平仮名) and katakana (片仮名)
 Test 6 -> Base64 Encoded: c3lsbGFiaWMga2FuYSDigJMgaGlyYWdhbmEgKOW5s+S7ruWQjSkgYW5kIGthdGFrYW5hICjniYfku67lkI0p
 Test 6 -> Base64 Encoding OK
 
-Test 7 -> Multi-byte Text: syllabic kana � hiragana (???) and katakana (???)
-Test 7 -> Base64 Decoded: syllabic kana � hiragana (???) and katakana (???)
+Test 7 -> Multi-byte Text: syllabic kana – hiragana (平仮名) and katakana (片仮名)
+Test 7 -> Base64 Decoded: syllabic kana – hiragana (平仮名) and katakana (片仮名)
 Test 7 -> Base64 Decoding OK
 ```
 
-The test project also demonstrates how to use the **libGcmAes.so** with other C++ projects on Linux like systems. Normally, just have to include **GcmAes.h** in your project and must link your project against **libGcmAes.so**. Code uses **C++ 14** standard.
+The test project also demonstrates how to use the **AesGcm.dll** with other C++ projects on Windows. Code uses **C++ 14** standard. **AesGcm.dll** itself is statically linked with Crypto++ library. **AesGcm.dll** can be used with other languages like C#, NodeJS and Java etc on Windows. For ### [Linux x64](https://github.com/KashifMushtaq/AesGcm_Linux) please use Linux version. 
 
 ### Background
 
@@ -74,3 +72,4 @@ You can also read more about Crypto++ AES GCM implementation or algorithm itself
 ### [C++ Version](https://github.com/KashifMushtaq/AES_GCM_256_C)
 ### [Java Version](https://github.com/KashifMushtaq/Aes256GCM_Java)
 ### [Linux Lib](https://github.com/KashifMushtaq/AesGcm_Linux)
+### [Windows DLL](https://github.com/KashifMushtaq/AesGcm_Windows)
