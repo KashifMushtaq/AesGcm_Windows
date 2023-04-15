@@ -57,7 +57,7 @@ Test 7 -> Base64 Decoded: syllabic kana – hiragana (平仮名) and katakana (�
 Test 7 -> Base64 Decoding OK
 ```
 
-The test project also demonstrates how to use the **AesGcm.dll** with other C++ projects on Windows. Code uses **C++ 14** standard. **AesGcm.dll** itself is statically linked with Crypto++ library. **AesGcm.dll** can be used with other languages like C#, NodeJS and Java etc on Windows. For ### [Linux x64](https://github.com/KashifMushtaq/AesGcm_Linux) please use Linux version. 
+The test project also demonstrates how to use the **AesGcm.dll** with other C++ projects on Windows. Code uses **C++ 14** standard. **AesGcm.dll** itself is statically linked with Crypto++ library. **AesGcm.dll** can be used with other languages like C#, NodeJS and Java etc on Windows. For [Linux x64](https://github.com/KashifMushtaq/AesGcm_Linux) please use Linux version. 
 
 ### Background
 
