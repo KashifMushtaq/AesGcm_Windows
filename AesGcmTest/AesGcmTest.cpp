@@ -6,8 +6,14 @@
 #include <tchar.h>
 #include <iostream>
 
-typedef bool (WINAPI* _base64Encode)(/*[in]*/ const char* inPlainText, /*[out]*/ char** outBase64Encoded, /*[in, out]*/ int& dataLength);
-typedef bool (WINAPI* _base64Decode)(/*[in]*/ const char* inBase64Text, /*[out]*/ char** outPlainText, /*[in, out]*/ int& dataLength);
+typedef bool (WINAPI* _base64Encode)(/*[in]*/ const std::string inPlainText, /*[out]*/ std::string &outBase64Encoded, /*[in, out]*/ int& dataLength);
+typedef bool (WINAPI* _base64Decode)(/*[in]*/ const std::string inBase64Text, /*[out]*/ std::string &outPlainText, /*[in, out]*/ int& dataLength);
+
+/// <summary>
+/// Note:
+/// It's Users responsibility to clear memory buffers allocated by the called DLL functions using delete[] out<Variable>. 
+/// E.g. for char** outHexDecoded: if(outHexDecoded) delete[] outHexDecoded; must be called after calling _hexDecode function
+/// </summary>
 typedef bool (WINAPI* _hexDecode)(/*[in]*/ const char* inHexEncodedText, /*[out]*/char** outHexDecoded);
 typedef bool (WINAPI* _hexEncode)(/*[in]*/ const char* inData, /*[out]*/char** outHexEncoded);
 
@@ -130,6 +136,22 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
         inHexKey.clear();
         inHexIV.clear();
 
+        if (outHexKey)
+        {
+            delete[] outHexKey;
+            outHexKey = nullptr;
+        }
+        if (outHexIv)
+        {
+            delete[] outHexIv;
+            outHexIv = nullptr;
+        }
+        if (outTestEncrypted)
+        {
+            delete[] outTestEncrypted;
+            outTestEncrypted = nullptr;
+        }
+
         /* ----------------------- Encryption Decryption Test ----------------------- */
 
 
@@ -183,6 +205,17 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
             }
         }
 
+        // Clear buffers
+        if (outEncrypted)
+        {
+            delete[] outEncrypted;
+            outEncrypted = nullptr;
+        }
+        if (outDecrypted)
+        {
+            delete[] outDecrypted;
+            outDecrypted = nullptr;
+        }
         /* ----------------------- C++ Encryption and C++ Decryption Test ----------------------- */
 
 
@@ -214,6 +247,12 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
             }
         }
 
+        // Clear buffers
+        if (outCDecrypted)
+        {
+            delete[] outCDecrypted;
+            outCDecrypted = nullptr;
+        }
         /* ----------------------- Java based Encryption and C++ Decryption Test ----------------------- */
 
 
@@ -265,13 +304,23 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
             }
         }
 
+        if (hexEncoded)
+        {
+            delete[] hexEncoded;
+            hexEncoded = nullptr;
+        }
+        if (hexDecoded)
+        {
+            delete[] hexDecoded;
+            hexDecoded = nullptr;
+        }
         /* ----------------------- Hex Encoding / Decoding Test ----------------------- */
 
 
         /* ----------------------- Base64 Encoding / Decoding Test ----------------------- */
 
-        char* base64Encoded = nullptr;
-        char* base64Decoded = nullptr;
+        std::string base64Encoded = "";
+        std::string base64Decoded = "";
         int base64Len = (int)pszPlainText.length();
 
         _base64Encode base64Encode;
@@ -279,12 +328,12 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 
         if (base64Encode)
         {
-            result = (base64Encode)(WideCharToAscii(pszPlainText.c_str()), &base64Encoded, base64Len);
+            result = (base64Encode)(WideCharToAscii(pszPlainText.c_str()), base64Encoded, base64Len);
 
             if (result)
             {
                 _tprintf(L"Test 6 -> Multi-byte Text: %s\n", pszPlainText.c_str());
-                printf("Test 6 -> Base64 Encoded: %s\n", base64Encoded);
+                printf("Test 6 -> Base64 Encoded: %s\n", base64Encoded.c_str());
                 printf("Test 6 -> Base64 Encoding OK\n\n");
             }
             else
@@ -299,13 +348,13 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 
         if (base64Decode)
         {
-            base64Len = (int)strlen(base64Encoded);
-            result = (base64Decode)(base64Encoded, &base64Decoded, base64Len);
+            base64Len = (int)base64Encoded.length();
+            result = (base64Decode)(base64Encoded, base64Decoded, base64Len);
 
-            if (result && strcmp(WideCharToAscii(pszPlainText.c_str()), base64Decoded) == 0)
+            if (result && strcmp(WideCharToAscii(pszPlainText.c_str()), base64Decoded.c_str()) == 0)
             {
                 _tprintf(L"Test 7 -> Multi-byte Text: %s\n", pszPlainText.c_str());
-                _tprintf(L"Test 7 -> Base64 Decoded: %s\n", AsciiToWideChar(base64Decoded));
+                _tprintf(L"Test 7 -> Base64 Decoded: %s\n", AsciiToWideChar(base64Decoded.c_str()));
                 printf("Test 7 -> Base64 Decoding OK\n\n");
             }
             else

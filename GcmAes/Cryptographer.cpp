@@ -23,45 +23,32 @@ SOFTWARE.
 #include "Cryptographer.h"
 
 bool WINAPI
-_base64Encode(/*[in]*/const char *inPlainText, /*[out]*/ char **outBase64Encoded, /*[in, out]*/int &dataLength)
+_base64Encode(const std::string inPlainText, std::string &outBase64Encoded, int& dataLength)
 {
     bool bR = false;
-    std::string pszOut;
 
-    CryptoPP::Base64Encoder *base64Encoder = new CryptoPP::Base64Encoder(new StringSink(pszOut), false);
-    base64Encoder->PutMessageEnd(reinterpret_cast<const unsigned char *> (inPlainText), strlen(inPlainText));
+    CryptoPP::Base64Encoder* base64Encoder = new CryptoPP::Base64Encoder(new StringSink(outBase64Encoded), false);
+    base64Encoder->PutMessageEnd(reinterpret_cast<const unsigned char*> (inPlainText.c_str()), inPlainText.length());
     delete base64Encoder;
-    dataLength = (int)pszOut.length();
+    dataLength = (int)outBase64Encoded.length();
     if (dataLength > 0)
     {
-        if (*outBase64Encoded) delete *outBase64Encoded;
-        *outBase64Encoded = new char[dataLength + 1];
-        memset(*outBase64Encoded, '\0', dataLength + 1);
-        memcpy(*outBase64Encoded, pszOut.c_str(), dataLength);
         bR = true;
     }
-    pszOut.clear();
     return bR;
 }
 
 bool WINAPI
-_base64Decode(/*[in]*/const char *inBase64Text, /*[out]*/ char **outPlainText, /*[in, out]*/int &dataLength)
+_base64Decode(/*[in]*/const std::string inBase64Text, /*[out]*/ std::string &outPlainText, /*[in, out]*/int &dataLength)
 {
     bool bR = false;
-    std::string pszOut;
 
-    Base64Decode(inBase64Text, pszOut);
+    Base64Decode(inBase64Text, outPlainText);
 
-    if (pszOut.length() > 0)
+    if (outPlainText.length() > 0)
     {
-        if (*outPlainText) delete *outPlainText;
-        dataLength = (int)pszOut.length();
-        *outPlainText = new char[dataLength + 1];
-        memset(*outPlainText, '\0', dataLength + 1);
-        memcpy(*outPlainText, pszOut.c_str(), dataLength);
         bR = true;
     }
-    pszOut.clear();
     return bR;
 }
 

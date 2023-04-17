@@ -109,8 +109,7 @@ Exported for dynamic loading and calling
 //extern "C" {
 //#endif
 
-    bool WINAPI _base64Encode(/*[in]*/ const char *inPlainText, /*[out]*/ char **outBase64Encoded, /*[in, out]*/ int &dataLength);
-    bool WINAPI _base64Decode(/*[in]*/ const char *inBase64Text, /*[out]*/ char **outPlainText, /*[in, out]*/ int &dataLength);
+
     bool WINAPI _hexDecode(/*[in]*/ const char *inHexEncodedText, /*[out]*/char **outHexDecoded);
     bool WINAPI _hexEncode(/*[in]*/ const char *inData, /*[out]*/char **outHexEncoded);
 
@@ -120,10 +119,23 @@ Exported for dynamic loading and calling
     bool WINAPI _getNewAESKeyAndIv(/*[out]*/ char **outHexKey, /*[out]*/ char **outHexIv, /*[out]*/ int &outKeyLength, /*[out]*/ int &outIvLength);
 
     
+    bool WINAPI _base64Encode(/*[in]*/ const std::string inPlainText, /*[out]*/ std::string &outBase64Encoded, /*[in, out]*/ int& dataLength);
+    bool WINAPI _base64Decode(/*[in]*/ const std::string inBase64Text, /*[out]*/ std::string &outPlainText, /*[in, out]*/ int& dataLength);
+
+    //bool WINAPI _base64Decode(/*[in]*/ const char* inBase64Text, /*[out]*/ char** outPlainText, /*[in, out]*/ int& dataLength);
+    bool WINAPI _hexDecode(/*[in]*/ const char* inHexEncodedText, /*[out]*/char** outHexDecoded);
+    bool WINAPI _hexEncode(/*[in]*/ const char* inData, /*[out]*/char** outHexEncoded);
+
+    bool WINAPI _encrypt_GcmAes256(/*[in]*/ const char* inHexKey, /*[in]*/ const char* inHexIv, /*[in]*/ const char* inPlainText, /*[out]*/ char** outEncryptedBase64, /*[in, out]*/ int& dataLength);
+    bool WINAPI _decrypt_GcmAes256(/*[in]*/ const char* inHexKey, /*[in]*/ const char* inHexIv, /*[in]*/ const char* inBase64Text, /*[out]*/ char** outDecrypted, /*[in, out]*/ int& dataLength);
+
+    bool WINAPI _getNewAESKeyAndIv(/*[out]*/ char** outHexKey, /*[out]*/ char** outHexIv, /*[out]*/ int& outKeyLength, /*[out]*/ int& outIvLength);
+
 
 //#ifdef __cplusplus
 //}
 //#endif
+
 
 void Base64Decode(const std::string& inString, std::string& outString);
 
